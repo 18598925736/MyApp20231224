@@ -12,7 +12,7 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        MyCrashHandler.getInstance().init(this);
+//        MyCrashHandler.getInstance().init(this); adfsafda
 
 
         FutureTask<String> task = new FutureTask<>(this::getString);
