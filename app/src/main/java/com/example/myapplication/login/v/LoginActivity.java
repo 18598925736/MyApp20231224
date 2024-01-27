@@ -1,33 +1,37 @@
 package com.example.myapplication.login.v;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myapplication.login.p.LoginPresenter;
+import com.example.myapplication.R;
 import com.example.myapplication.base.i.IView;
 import com.example.myapplication.databinding.ActivityLoginBinding;
+import com.example.myapplication.login.p.LoginPresenter;
 
 public class LoginActivity extends AppCompatActivity implements IView {
-
-    ActivityLoginBinding binding;
-
-    LoginPresenter loginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_login);
 
-        loginPresenter = new LoginPresenter(this);
-        getLifecycle().addObserver(loginPresenter);
-        binding.btnLogin.setOnClickListener(view -> {
-            Log.d("BasePresenter", "btnLogin click at: " + System.currentTimeMillis());
-            loginPresenter.loginAction();
-        });
+        try {
+            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+
+            String versionName = packageInfo.versionName;
+            int versionCode = packageInfo.versionCode;
+
+            TextView tv = findViewById(R.id.btnLogin);
+            tv.setText(versionName + " - " + versionCode);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
